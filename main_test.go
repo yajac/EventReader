@@ -12,15 +12,17 @@ func TestHandler(t *testing.T) {
 	expectedResponse := events.APIGatewayProxyResponse{
 		StatusCode: 200,
 		Headers: map[string]string{
-			"Content-Type": "text/html",
+			"Content-Type": "application/json",
 		},
-		Body: "Congratulations",
+		Body: "\"eventId\":",
 	}
 
 	response, err := Handler(request)
 
 	assert.Equal(t, response.Headers, expectedResponse.Headers)
 	assert.Contains(t, response.Body, expectedResponse.Body)
+	assert.Contains(t, response.Body, "\"description\":")
+	assert.Contains(t, response.Body, "\"title\":")
 	assert.Equal(t, err, nil)
 
 }
