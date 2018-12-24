@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
@@ -13,8 +12,9 @@ import (
 	"strings"
 )
 
-type Item struct {
-	EventId     string `json:"eventId"`
+//Struct for Event
+type Event struct {
+	EventID     string `json:"eventId"`
 	Description string `json:"description"`
 	Title       string `json:"title"`
 }
@@ -59,7 +59,7 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	}
 
 	for _, i := range result.Items {
-		item := Item{}
+		item := Event{}
 
 		err = dynamodbattribute.UnmarshalMap(i, &item)
 
@@ -67,14 +67,12 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 			return events.APIGatewayProxyResponse{}, err
 		}
 
-		itemJson, err := json.Marshal(item)
-
-		fmt.Println("Item: ", string(itemJson))
+		itemJSON, err := json.Marshal(item)
 
 		if err != nil {
 			return events.APIGatewayProxyResponse{}, err
 		}
-		list = append(list, string(itemJson))
+		list = append(list, string(itemJSON))
 	}
 
 	resultString := "[" + strings.Join(list, ",") + "]"
