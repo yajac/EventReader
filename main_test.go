@@ -8,21 +8,23 @@ import (
 
 func TestHandler(t *testing.T) {
 
-	request := events.APIGatewayProxyRequest{}
-	expectedResponse := events.APIGatewayProxyResponse{
-		StatusCode: 200,
-		Headers: map[string]string{
-			"Content-Type": "application/json",
-		},
-		Body: "\"eventId\":",
+	if testing.Short() {
+		request := events.APIGatewayProxyRequest{}
+		expectedResponse := events.APIGatewayProxyResponse{
+			StatusCode: 200,
+			Headers: map[string]string{
+				"Content-Type": "application/json",
+			},
+			Body: "\"eventId\":",
+		}
+
+		response, err := Handler(request)
+
+		assert.Equal(t, response.Headers, expectedResponse.Headers)
+		assert.Contains(t, response.Body, expectedResponse.Body)
+		assert.Contains(t, response.Body, "\"description\":")
+		assert.Contains(t, response.Body, "\"title\":")
+		assert.Equal(t, err, nil)
 	}
-
-	response, err := Handler(request)
-
-	assert.Equal(t, response.Headers, expectedResponse.Headers)
-	assert.Contains(t, response.Body, expectedResponse.Body)
-	assert.Contains(t, response.Body, "\"description\":")
-	assert.Contains(t, response.Body, "\"title\":")
-	assert.Equal(t, err, nil)
 
 }
