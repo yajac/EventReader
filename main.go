@@ -12,7 +12,7 @@ import (
 	"strings"
 )
 
-//Struct for Event
+//Event properties
 type Event struct {
 	EventID     string `json:"eventId"`
 	Description string `json:"description"`
