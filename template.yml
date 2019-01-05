@@ -19,7 +19,7 @@ Parameters:
 #       Type: Canary10Percent5Minutes
 
 Resources:
-  GetHelloWorld:
+  GetEvents:
     Type: AWS::Serverless::Function
     Properties:
       Handler: main
@@ -28,8 +28,8 @@ Resources:
         Fn::ImportValue:
           !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
       Events:
-        GetEvent:
+        GetEvents:
           Type: Api
           Properties:
-            Path: /
+            Path: /{location}
             Method: get

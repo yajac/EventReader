@@ -10,6 +10,11 @@ func TestHandler(t *testing.T) {
 
 	if testing.Short() {
 		request := events.APIGatewayProxyRequest{}
+		var paths = map[string]string{
+			"location": "Richmond",
+		}
+
+		request.PathParameters = paths
 		expectedResponse := events.APIGatewayProxyResponse{
 			StatusCode: 200,
 			Headers: map[string]string{
