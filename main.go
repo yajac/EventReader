@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
@@ -23,6 +24,8 @@ type Event struct {
 // is processed, it returns an Amazon API Gateway response object to AWS Lambda
 func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	var list []string
+
+	fmt.Printf("Path Parameters: %v\n", request.PathParameters)
 
 	sess, err := session.NewSession(&aws.Config{
 		Region: aws.String("us-east-1")},
